@@ -1,5 +1,5 @@
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 
 knotes = np.array([0, 1, 4])
 values = np.array([0, 2, 8])
@@ -52,8 +52,12 @@ print(np.transpose(p))
 
 input("Press Enter to continue...")
 
-pyplot.loglog(knotes[0:I], abs(p[0:I,0]-1))
-pyplot.loglog(knotes[0:I-1], abs(p[0:I-1,1]-1))
-pyplot.loglog(knotes[0:I-2], abs(p[0:I-2,2]-1))
+plt.loglog(knotes[0:I], abs(p[0:I,0]-1), label="column 1")
+plt.loglog(knotes[0:I-1], abs(p[0:I-1,1]-1), label="column 2")
+plt.loglog(knotes[0:I-2], abs(p[0:I-2,2]-1), label="column 3")
 
-pyplot.show()
+plt.xlabel('knotes')
+plt.ylabel('absolute error')
+plt.legend(loc="upper left")
+
+plt.show()
