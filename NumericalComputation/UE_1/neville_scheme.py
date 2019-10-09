@@ -1,6 +1,16 @@
 import numpy as np
 from matplotlib import pyplot
 
+knotes = np.array([0, 1, 4])
+values = np.array([0, 2, 8])
+
+p = np.polyfit(knotes, values, 2)
+print(p)
+p = np.polyval(p, 2)
+
+print(p)
+input("Press Enter to continue...")
+
 def neville_scheme(knotes, f, x):
 
     n = len(knotes)
@@ -23,7 +33,7 @@ x = 3
 
 p = neville_scheme(knotes, values, x)
 print(np.transpose(p))
-
+input("Press Enter to continue...")
 
 def f(h):
     return (np.exp(h) - 1)/h
@@ -39,6 +49,8 @@ for i in range(I):
 p = neville_scheme(knotes, values, 0)
 p = np.transpose(p)
 print(np.transpose(p))
+
+input("Press Enter to continue...")
 
 pyplot.loglog(knotes[0:I], abs(p[0:I,0]-1))
 pyplot.loglog(knotes[0:I-1], abs(p[0:I-1,1]-1))
