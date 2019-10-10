@@ -1,0 +1,47 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#%% Exercise 1 d)
+x  = np.array([0,1,4])      # datapoints in x 
+y  = np.array([0,2,8])      # datapoints in y
+z  = np.polyfit(x, y, 2)    # fit x and y by quadratic (x) = z0*x**2 + z1*x + z2
+y2 = np.polyval(z, 2)       # evaluate f(x) at 2
+#%% Exercise 2
+def neville(px, py, val):
+    N         = len(px)         # number of datapoints
+    outp      = np.zeros((N,N)) # solution matrix
+    outp[:,0] = py              # initialize left side of solution matrix
+    for m in range(1,N):        
+        for j in range(0,N):
+            if (j+1)<N and (j+m)<N: 
+                # neville sceme
+                outp[j,m] = ((val-px[j])*outp[j+1,m-1] - (val-px[j+m])*outp[j,m-1])/(px[j+m]-px[j])
+    return outp
+
+# evaluate testcase 1
+myout = neville(x,y,2)
+
+# evaluate testcase 2
+#x = np.linspace(0,4,10)
+#y = np.sin(x)
+#myout1 = neville(x,y,np.pi/2)
+
+#%% Exercise 3
+
+I     = np.arange(0,20) # sequence indices
+x     = 2.0**-I         # sequence (2**-i)_i
+y     = (np.exp(x)-1)/x # evaluate function at the sequence data points
+myout = neville(x,y,0)  # interpolate 0 by neville sceme
+
+error = np.zeros_like(y) # initialize error vector
+for j in range(1,len(myout)-1): 
+        error[j-1] = np.max(np.abs(1-myout[j,:-(j+1)])) # find maxerror in column of neville sceme
+        
+plt.semilogy(I[:-2], error[:-2],'o')
+ax = plt.gca()
+ax.set_xlabel('column in neville sceme')
+ax.set_ylabel('max error in column')
+ax.set_xticks(I)
+ax.grid(True)
+    
+    
